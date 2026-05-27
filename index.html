@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite especial</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffe1e8, #fff4d6);
+      padding: 24px;
+      color: #3d2b2b;
+      overflow-x: hidden;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 18px 45px rgba(120, 50, 70, 0.18);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heart {
+      font-size: 42px;
+      margin-bottom: 12px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: #b4455d;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .question-screen {
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .answer-buttons {
+      width: 100%;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .yes-button,
+    .no-button {
+      border: none;
+      border-radius: 18px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .yes-button {
+      background: #b4455d;
+      color: white;
+      box-shadow: 0 8px 18px rgba(180, 69, 93, 0.18);
+    }
+
+    .yes-button:hover {
+      background: #96374d;
+      transform: translateY(-2px);
+    }
+
+    .no-button {
+      background: #f3d7dd;
+      color: #7a394a;
+      position: absolute;
+      left: 55%;
+      top: 35px;
+    }
+
+    .date-screen {
+      display: none;
+    }
+
+    .section {
+      margin: 24px 0;
+      text-align: left;
+    }
+
+    .section h2 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      color: #7a394a;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    button.option {
+      border: 2px solid #f1b6c2;
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      color: #5a333c;
+    }
+
+    button.option:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(180, 69, 93, 0.12);
+    }
+
+    button.option.selected {
+      background: #b4455d;
+      color: white;
+      border-color: #b4455d;
+    }
+
+    .result {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #fff6f8;
+      border: 1px dashed #d77b92;
+      display: none;
+      text-align: center;
+    }
+
+    .main-button {
+      margin-top: 18px;
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 15px;
+      background: #b4455d;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .main-button:hover {
+      background: #96374d;
+      transform: translateY(-2px);
+    }
+
+    .small {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-top: 16px;
+    }
+
+    a {
+      color: #b4455d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section class="question-screen" id="questionScreen">
+      <div class="heart">💛</div>
+      <h1>Você quer sair comigo?</h1>
+      <p>Prometo caprichar na escolha e fazer valer a pena.</p>
+
+      <div class="answer-buttons" id="answerArea">
+        <button class="yes-button" onclick="mostrarConvite()">Sim ✨</button>
+        <button class="no-button" id="noButton">Não</button>
+      </div>
+    </section>
+
+    <section class="date-screen" id="dateScreen">
+      <div class="heart">💛</div>
+      <h1>Então vamos planejar nosso date</h1>
+      <p>
+        Escolhe aqui o dia, o horário e o tipo de refeição que você prefere.
+      </p>
+
+      <div class="section">
+        <h2>Quais dias combinam mais? Pode escolher mais de um 😊</h2>
+        <div class="options" data-group="dia">
+          <button class="option">Segunda-feira</button>
+          <button class="option">Terça-feira</button>
+          <button class="option">Quarta-feira</button>
+          <button class="option">Quinta-feira</button>
+          <button class="option">Sexta-feira</button>
+          <button class="option">Sábado</button>
+          <button class="option">Domingo</button>
+          <button class="option">Você escolhe</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Qual horário?</h2>
+        <div class="options" data-group="horario">
+          <button class="option">Manhã</button>
+          <button class="option">Almoço</button>
+          <button class="option">Fim da tarde</button>
+          <button class="option">Noite</button>
+          <button class="option">Você escolhe</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Que tipo de refeição? Pode escolher mais de uma 😊</h2>
+        <div class="options" data-group="refeicao">
+          <button class="option">Café da manhã</button>
+          <button class="option">Brunch</button>
+          <button class="option">Jantar</button>
+          <button class="option">Sobremesa</button>
+          <button class="option">Comida japonesa</button>
+          <button class="option">Pizza</button>
+          <button class="option">Mexicana</button>
+          <button class="option">Pastel</button>
+          <button class="option">Poke</button>
+          <button class="option">Massas</button>
+          <button class="option">Docinhos</button>
+          <button class="option">Você escolhe</button>
+        </div>
+      </div>
+
+      <button class="main-button" onclick="confirmarConvite()">Confirmar meu date ✨</button>
+
+      <div class="result" id="resultado"></div>
+
+      <p class="small">Feito com carinho para uma pessoa especial.</p>
+    </section>
+  </main>
+
+  <script>
+    const escolhas = {
+      dia: [],
+      horario: '',
+      refeicao: []
+    };
+
+    const noButton = document.getElementById('noButton');
+    const answerArea = document.getElementById('answerArea');
+
+    function fugirDoMouse() {
+      const areaWidth = answerArea.offsetWidth;
+      const areaHeight = answerArea.offsetHeight;
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      const maxX = areaWidth - buttonWidth;
+      const maxY = areaHeight - buttonHeight;
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      noButton.style.left = randomX + 'px';
+      noButton.style.top = randomY + 'px';
+    }
+
+    noButton.addEventListener('mouseover', fugirDoMouse);
+    noButton.addEventListener('click', fugirDoMouse);
+    noButton.addEventListener('touchstart', fugirDoMouse);
+
+    function mostrarConvite() {
+      document.getElementById('questionScreen').style.display = 'none';
+      document.getElementById('dateScreen').style.display = 'block';
+    }
+
+    document.querySelectorAll('.options').forEach(group => {
+      const groupName = group.dataset.group;
+      const buttons = group.querySelectorAll('.option');
+
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          if (groupName === 'refeicao' || groupName === 'dia') {
+            button.classList.toggle('selected');
+
+            if (escolhas[groupName].includes(button.textContent)) {
+              escolhas[groupName] = escolhas[groupName].filter(item => item !== button.textContent);
+            } else {
+              escolhas[groupName].push(button.textContent);
+            }
+          } else {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            escolhas[groupName] = button.textContent;
+          }
+        });
+      });
+    });
+
+    function confirmarConvite() {
+      const resultado = document.getElementById('resultado');
+
+      if (escolhas.dia.length === 0 || !escolhas.horario || escolhas.refeicao.length === 0) {
+        resultado.style.display = 'block';
+        resultado.innerHTML = 'Escolhe uma opção em cada categoria antes de confirmar 😊';
+        return;
+      }
+
+      const diasEscolhidos = escolhas.dia.join(', ');
+      const refeicoesEscolhidas = escolhas.refeicao.join(', ');
+      const mensagem = `Date confirmado! Dias possíveis: ${diasEscolhidos}. Horário: ${escolhas.horario}. Refeições possíveis: ${refeicoesEscolhidas}.`;  
+      const linkWhatsApp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+
+      resultado.style.display = 'block';
+      resultado.innerHTML = `
+        <strong>Perfeito! 💛</strong><br><br>
+        Nosso date ficou assim:<br>
+        <strong>Dias possíveis:</strong> ${diasEscolhidos}<br>
+        <strong>Horário:</strong> ${escolhas.horario}<br>
+        <strong>Refeições possíveis:</strong> ${refeicoesEscolhidas}<br><br>
+        <a href="${linkWhatsApp}" target="_blank">Enviar resposta pelo WhatsApp</a>
+      `;
+    }
+  </script>
+</body>
+</html>
